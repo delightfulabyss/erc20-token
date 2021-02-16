@@ -1,8 +1,11 @@
 // https://eips.ethereum.org/EIPS/eip-20
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.5.0 <0.8.1;
+pragma solidity >=0.5.0 <0.8.2;
 
 interface Token {
+    /// @notice Determines the total number of tokens created minus the balance of the contract owner
+    /// @return total total number of tokens in circulation
+    function totalSupply() external view returns(uint256 total);
 
     /// @param _owner The address from which the balance will be retrieved
     /// @return balance the balance
@@ -55,17 +58,17 @@ contract SafeMath {
 }
 
 contract MJWToken is Token, SafeMath {
-    //three optional items
+    //Three optional variables
     string public name;
     string public symbol;
     uint8 public decimals;
     
     uint256 public _totalSupply;
     
-    mapping(address => uint) balances;
-    mapping(address => mapping(address => uint)) allowed;
+    mapping(address => uint256) balances;
+    mapping(address => mapping(address => uint256)) allowed;
     
-    constructor () public {
+    constructor () {
         name = "MJWToken";
         symbol = "MJW";
         decimals = 18;
@@ -78,44 +81,44 @@ contract MJWToken is Token, SafeMath {
   // Six mandatory functions
 
   //Determines the total number of tokens created minus the balance of the contract owner
-  function totalSupply() public override view returns(uint) {
+  function totalSupply() public override view returns(uint256 total) {
     return _totalSupply - balances[address(0)];
   }
 
   //Returns the number of tokens that a particular address has
-  function balanceOf(address tokenHolder) public override view returns(uint balance) {
-    return balances[tokenHolder];
+  function balanceOf(address _owner) public override view returns(uint256 balance) {
+    return balances[_owner];
   }
 
   //Makes sure that the user has the minimum number of tokens required for the transaction
-  function allowance(address tokenHolder, address spender) public override view returns(uint remaining) {
-    return allowed[tokenHolder][spender];
+  function allowance(address _owner, address _spender) public override view returns(uint256 remaining) {
+    return allowed[_owner][_spender];
   }
 
   //Contract owner can give their approval to the user to collect the required number of tokens from the contract's address
-  function approve (address spender, uint tokens) public override returns(bool success) {
-    allowed[msg.sender][spender] = tokens;
-    emit Approval(msg.sender, spender, tokens);
+  function approve (address _spender, uint256 _value) public override returns(bool success) {
+    allowed[msg.sender][_spender] = _value;
+    emit Approval(msg.sender, _spender, _value);
     return true;
   }
 
   //Contract owner can send a given amount of tokens to another address
-  function transfer(address to, uint tokens) public override returns (bool success) {
-    balances[msg.sender] = safeSub(balances[msg.sender], tokens);
-    balances[to] = safeAdd(balances[to], tokens);
+  function transfer(address _to, uint256 _value) public override returns (bool success) {
+    balances[msg.sender] = safeSub(balances[msg.sender], _value);
+    balances[_to] = safeAdd(balances[_to], _value);
 
-    emit Transfer(msg.sender, to, tokens);
+    emit Transfer(msg.sender, _to, _value);
     return true;
   }
 
   //This function helps to automate transfers to and from specfic accounts
-  function transferFrom (address from, address to, uint tokens) public override
+  function transferFrom (address _from, address _to, uint256 _value) public override
 	returns (bool success) {
-    balances[from] = safeSub(balances[from], tokens);
-    allowed[from][msg.sender] = safeSub(allowed[from][msg.sender], tokens);
-    balances[to] = safeAdd(balances[to], tokens);
+    balances[_from] = safeSub(balances[_from], _value);
+    allowed[_from][msg.sender] = safeSub(allowed[_from][msg.sender], _value);
+    balances[_to] = safeAdd(balances[_to], _value);
         
-	emit Transfer(from, to, tokens);
+	emit Transfer(_from, _to, _value);
     return true;
   }
 }

@@ -34,3 +34,16 @@ abstract contract ERC20Interface {
     event Transfer(address indexed from, address indexed to, uint tokens);
     event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
 }
+
+contract MJWToken {
+    //three optional rules
+    string public name;
+    string public symbol;
+    uint8 public decimals;
+
+    constructor () public {
+        name = "MJWToken";
+        symbol = "MJW";
+        decimals = 18;
+    }
+}

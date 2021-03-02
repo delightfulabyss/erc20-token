@@ -57,15 +57,19 @@ contract SafeMath {
     }
 }
 
-contract MJWToken is Token, SafeMath {
+contract MattToken is Token, SafeMath {
     //Three optional variables
     string public name;
     string public symbol;
     uint8 public decimals;
     
+    //Total number of tokens
     uint256 public _totalSupply;
     
+    //Mapping of addresses to balances
     mapping(address => uint256) balances;
+
+    //Mapping of owner addresses to a mapping of spenders and allowed amounts
     mapping(address => mapping(address => uint256)) allowed;
     
     constructor () {
@@ -90,7 +94,7 @@ contract MJWToken is Token, SafeMath {
     return balances[_owner];
   }
 
-  //Makes sure that the user has the minimum number of tokens required for the transaction
+  //Returns the number of tokens allowed by the owner to be spent by the spender
   function allowance(address _owner, address _spender) public override view returns(uint256 remaining) {
     return allowed[_owner][_spender];
   }
@@ -103,6 +107,7 @@ contract MJWToken is Token, SafeMath {
   }
 
   //Contract owner can send a given amount of tokens to another address
+  //If the requested amount is greater than the owner's balance, an error will be thrown
   function transfer(address _to, uint256 _value) public override returns (bool success) {
     balances[msg.sender] = safeSub(balances[msg.sender], _value);
     balances[_to] = safeAdd(balances[_to], _value);
@@ -112,6 +117,7 @@ contract MJWToken is Token, SafeMath {
   }
 
   //This function helps to automate transfers to and from specfic accounts
+  //If the requested value is greater than what is allowed by the owner, an error will be thrown
   function transferFrom (address _from, address _to, uint256 _value) public override
 	returns (bool success) {
     balances[_from] = safeSub(balances[_from], _value);

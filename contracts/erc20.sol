@@ -1,6 +1,6 @@
 // https://eips.ethereum.org/EIPS/eip-20
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.5.0 <0.8.2;
+pragma solidity >=0.5.0 <0.8.1;
 
 interface Token {
     /// @notice Determines the total number of tokens created minus the balance of the contract owner

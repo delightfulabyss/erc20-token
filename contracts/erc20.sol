@@ -1,6 +1,6 @@
 // https://eips.ethereum.org/EIPS/eip-20
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.5.0 <0.8.1;
+pragma solidity >=0.5.0 <=0.8.1;
 
 interface Token {
     /// @notice Determines the total number of tokens created minus the balance of the contract owner
@@ -96,7 +96,7 @@ contract MatthewToken is Token, SafeMath {
   function balanceOf(address _owner) public override view returns(uint256 balance) {
     return balances[_owner];
   }
-git ad
+
   //Returns the number of tokens allowed by the owner to be spent by the spender
   function allowance(address _owner, address _spender) public override view returns(uint256 remaining) {
     return allowed[_owner][_spender];

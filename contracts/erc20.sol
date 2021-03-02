@@ -57,7 +57,7 @@ contract SafeMath {
     }
 }
 
-contract MattToken is Token, SafeMath {
+contract ExampleToken is Token, SafeMath {
     //Three optional variables
     string public name;
     string public symbol;
@@ -73,8 +73,8 @@ contract MattToken is Token, SafeMath {
     mapping(address => mapping(address => uint256)) allowed;
     
     constructor () {
-        name = "MJWToken";
-        symbol = "MJW";
+        name = "ExampleToken";
+        symbol = "EXT";
         decimals = 18;
         _totalSupply = 100000000000000000000000000;
         

@@ -44,12 +44,15 @@ contract SafeMath {
       c = a + b;
       require(c >= a);
     }
+    
     function safeSub(uint a, uint b) public pure returns (uint c) {
-      require(b <= a); c = a - b; } 
+      require(b <= a); 
+      c = a - b; } 
     
     function safeMul(uint a, uint b) public pure returns (uint c) { 
       c = a * b; 
-      require(a == 0 || c / a == b); } 
+      require(a == 0 || c / a == b);
+    } 
     
     function safeDiv(uint a, uint b) public pure returns (uint c) { 
       require(b > 0);
@@ -57,7 +60,7 @@ contract SafeMath {
     }
 }
 
-contract ExampleToken is Token, SafeMath {
+contract MatthewToken is Token, SafeMath {
     //Three optional variables
     string public name;
     string public symbol;
@@ -73,8 +76,8 @@ contract ExampleToken is Token, SafeMath {
     mapping(address => mapping(address => uint256)) allowed;
     
     constructor () {
-        name = "ExampleToken";
-        symbol = "EXT";
+        name = "MatthewToken";
+        symbol = "MJW";
         decimals = 18;
         _totalSupply = 100000000000000000000000000;
         
@@ -93,7 +96,7 @@ contract ExampleToken is Token, SafeMath {
   function balanceOf(address _owner) public override view returns(uint256 balance) {
     return balances[_owner];
   }
-
+git ad
   //Returns the number of tokens allowed by the owner to be spent by the spender
   function allowance(address _owner, address _spender) public override view returns(uint256 remaining) {
     return allowed[_owner][_spender];

@@ -1,5 +1,5 @@
-const ERC20 = artifacts.require("ERC20");
+const MatthewToken = artifacts.require("MatthewToken");
 
 module.exports = function (deployer) {
-  deployer.deploy(ERC20).catch(() => console.log("Deploy failed"));
+  deployer.deploy(MatthewToken).catch(() => console.log("Deploy failed"));
 };

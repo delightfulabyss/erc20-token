@@ -102,7 +102,7 @@ contract MatthewToken is Token, SafeMath {
     return allowed[_owner][_spender];
   }
 
-  //Contract owner can give their approval to the user to collect the required number of tokens from the contract's address
+  //Contract owner can give their approval to an address to spend a given amount of their tokens on their behalf
   function approve (address _spender, uint256 _value) public override returns(bool success) {
     allowed[msg.sender][_spender] = _value;
     emit Approval(msg.sender, _spender, _value);

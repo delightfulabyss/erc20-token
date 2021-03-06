@@ -62,7 +62,7 @@ library SafeMath {
 
 contract MatthewToken is Token {
     //Attach safemath functions to uin256 variables
-    using SafeMath for uint256
+    using SafeMath for uint256;
     
     //Three optional variables
     string public name;

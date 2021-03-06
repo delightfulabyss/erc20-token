@@ -105,14 +105,14 @@ contract MatthewToken is Token {
     return allowed[_owner][_spender];
   }
 
-  //Contract owner can give their approval to an address to spend a given amount of their tokens on their behalf
+  //Msg.sender can give their approval to an address to spend a given amount of their tokens on their behalf
   function approve (address _spender, uint256 _value) public override returns(bool success) {
     allowed[msg.sender][_spender] = _value;
     emit Approval(msg.sender, _spender, _value);
     return true;
   }
 
-  //Contract owner can send a given amount of tokens to another address
+  //Msg.sender can send a given amount of tokens to another address
   //If the requested amount is greater than the owner's balance, an error will be thrown
   function transfer(address _to, uint256 _value) public override returns (bool success) {
     balances[msg.sender] = balances[msg.sender].safeSub(_value);

@@ -65,9 +65,9 @@ contract MatthewToken is Token {
     using SafeMath for uint256;
     
     //Three optional variables
-    string public name;
-    string public symbol;
-    uint8 public decimals;
+    string internal name;
+    string internal symbol;
+    uint8 internal decimals;
     
     //Total number of tokens
     uint256 public _totalSupply;

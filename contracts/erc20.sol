@@ -39,7 +39,7 @@ interface Token {
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 }
 
-contract SafeMath {
+library SafeMath {
     function safeAdd(uint a, uint b) public pure returns (uint c) {
       c = a + b;
       require(c >= a);
@@ -60,7 +60,10 @@ contract SafeMath {
     }
 }
 
-contract MatthewToken is Token, SafeMath {
+contract MatthewToken is Token {
+    //Attach safemath functions to uin256 variables
+    using SafeMath for uint256
+    
     //Three optional variables
     string public name;
     string public symbol;
@@ -112,8 +115,8 @@ contract MatthewToken is Token, SafeMath {
   //Contract owner can send a given amount of tokens to another address
   //If the requested amount is greater than the owner's balance, an error will be thrown
   function transfer(address _to, uint256 _value) public override returns (bool success) {
-    balances[msg.sender] = safeSub(balances[msg.sender], _value);
-    balances[_to] = safeAdd(balances[_to], _value);
+    balances[msg.sender] = balances[msg.sender].safeSub(_value);
+    balances[_to] = balances[_to].safeAdd( _value);
 
     emit Transfer(msg.sender, _to, _value);
     return true;
@@ -123,9 +126,9 @@ contract MatthewToken is Token, SafeMath {
   //If the requested value is greater than what is allowed by the owner, an error will be thrown
   function transferFrom (address _from, address _to, uint256 _value) public override
 	returns (bool success) {
-    balances[_from] = safeSub(balances[_from], _value);
-    allowed[_from][msg.sender] = safeSub(allowed[_from][msg.sender], _value);
-    balances[_to] = safeAdd(balances[_to], _value);
+    balances[_from] = balances[_from].safeSub(_value);
+    allowed[_from][msg.sender] = allowed[_from][msg.sender].safeSub(_value);
+    balances[_to] = balances[_to].safeAdd(_value);
         
 	emit Transfer(_from, _to, _value);
     return true;

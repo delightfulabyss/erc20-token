@@ -70,7 +70,7 @@ contract MatthewToken is Token {
     uint8 internal decimals;
     
     //Total number of tokens
-    uint256 public _totalSupply;
+    uint256 internal _totalSupply;
     
     //Mapping of addresses to balances
     mapping(address => uint256) balances;
@@ -78,13 +78,13 @@ contract MatthewToken is Token {
     //Mapping of owner addresses to a mapping of spenders and allowed amounts
     mapping(address => mapping(address => uint256)) allowed;
     
-    constructor () {
-        name = "MatthewToken";
-        symbol = "MJW";
-        decimals = 18;
-        _totalSupply = 100000000000000000000000000;
+    constructor (string memory _name, string memory _symbol, uint8 _decimals, uint256 _initialOwnerBalance) {
+        name = _name;
+        symbol = _symbol;
+        decimals = _decimals;
+        _totalSupply = _initialOwnerBalance;
+        balances[msg.sender] = _initialOwnerBalance;
         
-        balances[msg.sender] = _totalSupply;
         emit Transfer(address(0), msg.sender, _totalSupply);
     }
   

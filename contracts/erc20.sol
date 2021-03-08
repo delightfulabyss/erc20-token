@@ -124,7 +124,7 @@ contract MatthewToken is Token {
   }
 
   //This function helps to automate transfers to and from specific accounts
-  //If the requested value is greater than what is allowed by the owner, an error will be thrown
+  //If the requested value is greater than the owner's balance or if the requested value is greater than what is allowed by the owner, an error will be thrown
   function transferFrom (address _from, address _to, uint256 _value) public override
 	returns (bool success) {
     require(balances[_from] >= _value, 'Insufficient funds for transfer');

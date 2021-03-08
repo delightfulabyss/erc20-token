@@ -115,6 +115,7 @@ contract MatthewToken is Token {
   //Msg.sender can send a given amount of tokens to another address
   //If the requested amount is greater than the owner's balance, an error will be thrown
   function transfer(address _to, uint256 _value) public override returns (bool success) {
+    require(balances[msg.sender] >= _value, 'Insufficient funds for transfer');
     balances[msg.sender] = balances[msg.sender].safeSub(_value);
     balances[_to] = balances[_to].safeAdd( _value);
 
@@ -126,6 +127,7 @@ contract MatthewToken is Token {
   //If the requested value is greater than what is allowed by the owner, an error will be thrown
   function transferFrom (address _from, address _to, uint256 _value) public override
 	returns (bool success) {
+    require(balances[_from] >= _value, 'Insufficient funds for transfer');
     balances[_from] = balances[_from].safeSub(_value);
     allowed[_from][msg.sender] = allowed[_from][msg.sender].safeSub(_value);
     balances[_to] = balances[_to].safeAdd(_value);
